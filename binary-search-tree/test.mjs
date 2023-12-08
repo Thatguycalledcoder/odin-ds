@@ -20,3 +20,5 @@ function prettyPrint(node, prefix = "", isLeft = true) {
   };
 
 prettyPrint(node);
+
+tree.inOrder(tree.root);

@@ -53,7 +53,18 @@ export default class BinarySearchTree {
 
     levelOrder() {}
 
-    inOrder() {}
+    inOrder(node, arr = []) {
+        if (node == null)
+            return 
+
+        this.inOrder(node.leftNode, arr);
+        // console.log(node.value);
+        arr.push(node.value);
+        this.inOrder(node.rightNode, arr);
+
+        if (this.root.value === node.value)
+            console.log(arr);
+    }
 
     preOrder() {}
 
