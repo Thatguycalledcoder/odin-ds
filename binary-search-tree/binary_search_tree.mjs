@@ -53,7 +53,7 @@ export default class BinarySearchTree {
 
     levelOrder() {}
 
-    inOrder(node, arr = []) {
+    inOrder(node = this.root, arr = []) {
         if (node == null)
             return 
 
@@ -66,9 +66,29 @@ export default class BinarySearchTree {
             console.log(arr);
     }
 
-    preOrder() {}
+    preOrder(node = this.root, arr = []) {
+        if (node == null)
+            return
 
-    postOrder() {}
+        arr.push(node.value);
+        this.preOrder(node.leftNode, arr);
+        this.preOrder(node.rightNode, arr);
+
+        if (this.root.value === node.value)
+            console.log(arr);
+    }
+
+    postOrder(node = this.root, arr = []) {
+        if (node == null)
+            return
+
+        this.preOrder(node.leftNode, arr);
+        this.preOrder(node.rightNode, arr);
+        arr.push(node.value);
+
+        if (this.root.value === node.value)
+            console.log(arr);
+    }
 
     height() {}
 
