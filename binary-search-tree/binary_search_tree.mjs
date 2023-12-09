@@ -45,7 +45,49 @@ export default class BinarySearchTree {
         return node;
     }
 
-    insert() {}
+    breadFirstSearch(node = this.root, arr = []) {
+        if (node == null) return;
+
+        let queue = [node];
+        while (queue.length) {
+            const current_node = queue.shift();
+            if (current_node.leftNode) 
+                queue.push(current_node.leftNode);
+            if (current_node.rightNode) 
+                queue.push(current_node.rightNode);
+            arr.push(current_node);
+        }
+
+        return arr;
+    }
+
+    insert(data) {
+        if (this.root == null) return;
+
+        let queue = [this.root];
+        while (queue.length) {
+            const current_node = queue.shift();
+            
+            if (data < current_node.value) { // if data less than current node
+                if (current_node.leftNode == null) {
+                    current_node.leftNode = Node(data);
+                    break;
+                }
+                else 
+                    queue.push(current_node.leftNode);
+            }
+            else { //if data greater than current node
+                if (current_node.rightNode == null) {
+                    current_node.rightNode = Node(data);
+                    break;
+                }
+                else 
+                    queue.push(current_node.rightNode);
+            }
+
+        return arr;
+        }
+    }
 
     delete() {}
 
