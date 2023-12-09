@@ -93,23 +93,28 @@ export default class BinarySearchTree {
         if (this.root == null) return;
 
         let queue = [this.root];
-        while (queue.length) {
+        while (queue.length > 0) {
             const current_node = queue.shift();
             
             if (current_node.leftNode.value === data) {
-                // No children
-                let target = current_node.leftNode;
-                if (!target.leftNode && !target.rightNode)
-                    current_node.leftNode = null;
+                let children = this.inOrder(current_node.leftNode, [], current_node.leftNode);
+                children.splice(children.indexOf(current_node.leftNode.value), 1);
+                current_node.leftNode = this.buildSubtree(children, 0, children.length - 1);
             }
             else if (current_node.rightNode.value === data) {
-                let target = current_node.rightNode;
-                if (!target.leftNode && !target.rightNode)
-                    current_node.rightNode = null;
+                let children = this.inOrder(current_node.rightNode, [], current_node.rightNode);
+                children.splice(children.indexOf(current_node.rightNode.value), 1);
+                current_node.rightNode = this.buildSubtree(children, 0, children.length - 1);
+            }
+            else if (data < current_node.value) {
+                queue.push(current_node.leftNode);
+            }
+            else {
+                queue.push(current_node.rightNode);
             }
 
         }
-        return false;
+        return this.root;
     }
 
     find(data) {
@@ -144,7 +149,7 @@ export default class BinarySearchTree {
         callbackFn ? callbackFn(arr) : null;
     }
 
-    inOrder(node = this.root, arr = []) {
+    inOrder(node = this.root, arr = [], first = null) {
         if (node == null)
             return 
 
@@ -153,8 +158,14 @@ export default class BinarySearchTree {
         arr.push(node.value);
         this.inOrder(node.rightNode, arr);
 
-        if (this.root.value === node.value)
+        if (first !== null && first.value === node.value) {
+            return arr;
+            
+        }
+        else if (this.root.value === node.value) {
             console.log(arr);
+            return arr;
+        }
     }
 
     preOrder(node = this.root, arr = []) {
@@ -165,8 +176,10 @@ export default class BinarySearchTree {
         this.preOrder(node.leftNode, arr);
         this.preOrder(node.rightNode, arr);
 
-        if (this.root.value === node.value)
+        if (this.root.value === node.value) {
             console.log(arr);
+            return arr;
+        }
     }
 
     postOrder(node = this.root, arr = []) {
@@ -177,8 +190,10 @@ export default class BinarySearchTree {
         this.preOrder(node.rightNode, arr);
         arr.push(node.value);
 
-        if (this.root.value === node.value)
+        if (this.root.value === node.value) {
             console.log(arr);
+            return arr;
+        }
     }
 
     height() {}

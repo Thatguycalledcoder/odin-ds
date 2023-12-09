@@ -21,11 +21,14 @@ function prettyPrint(node, prefix = "", isLeft = true) {
 
 prettyPrint(node);
 
-console.log("In Order Traversal:")
-tree.inOrder();
+// console.log("In Order Traversal:")
+// tree.inOrder();
 
-console.log("Pre Order Traversal:")
-tree.preOrder();
+// console.log("Pre Order Traversal:")
+// tree.preOrder();
 
-console.log("Post Order Traversal:")
-tree.postOrder();
+// console.log("Post Order Traversal:")
+// tree.postOrder();
+
+console.log("Deleting 1");
+prettyPrint(tree.delete(1));
