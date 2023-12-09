@@ -89,7 +89,28 @@ export default class BinarySearchTree {
         return false;
     }
 
-    delete() {}
+    delete(data) {
+        if (this.root == null) return;
+
+        let queue = [this.root];
+        while (queue.length) {
+            const current_node = queue.shift();
+            
+            if (current_node.leftNode.value === data) {
+                // No children
+                let target = current_node.leftNode;
+                if (!target.leftNode && !target.rightNode)
+                    current_node.leftNode = null;
+            }
+            else if (current_node.rightNode.value === data) {
+                let target = current_node.rightNode;
+                if (!target.leftNode && !target.rightNode)
+                    current_node.rightNode = null;
+            }
+
+        }
+        return false;
+    }
 
     find(data) {
         if (this.root == null) return;
