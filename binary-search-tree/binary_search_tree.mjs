@@ -91,7 +91,32 @@ export default class BinarySearchTree {
 
     delete() {}
 
-    find() {}
+    find(data) {
+        if (this.root == null) return;
+
+        let queue = [this.root];
+        while (queue.length) {
+            const current_node = queue.shift();
+            
+            if (data === current_node.value) return true;
+            else if (data < current_node.value) { // if data less than current node
+                if (current_node.leftNode == null) {
+                    return false;
+                }
+                else 
+                    queue.push(current_node.leftNode);
+            }
+            else { //if data greater than current node
+                if (current_node.rightNode == null) {
+                    return false;
+                }
+                else 
+                    queue.push(current_node.rightNode);
+            }
+
+        }
+        return false;
+    }
 
     levelOrder(callbackFn) {
         let arr = this.breadFirstSearch();
