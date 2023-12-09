@@ -71,7 +71,7 @@ export default class BinarySearchTree {
             if (data < current_node.value) { // if data less than current node
                 if (current_node.leftNode == null) {
                     current_node.leftNode = Node(data);
-                    break;
+                    return true;
                 }
                 else 
                     queue.push(current_node.leftNode);
@@ -79,21 +79,24 @@ export default class BinarySearchTree {
             else { //if data greater than current node
                 if (current_node.rightNode == null) {
                     current_node.rightNode = Node(data);
-                    break;
+                    return true;
                 }
                 else 
                     queue.push(current_node.rightNode);
             }
 
-        return arr;
         }
+        return false;
     }
 
     delete() {}
 
     find() {}
 
-    levelOrder() {}
+    levelOrder(callbackFn) {
+        let arr = this.breadFirstSearch();
+        callbackFn ? callbackFn(arr) : null;
+    }
 
     inOrder(node = this.root, arr = []) {
         if (node == null)
