@@ -30,5 +30,8 @@ prettyPrint(node);
 // console.log("Post Order Traversal:")
 // tree.postOrder();
 
-console.log("Deleting 1");
-prettyPrint(tree.delete(1));
+// console.log("Deleting 1");
+// prettyPrint(tree.delete(1));
+
+console.log("Depth of 1")
+console.log(tree.depth(1));

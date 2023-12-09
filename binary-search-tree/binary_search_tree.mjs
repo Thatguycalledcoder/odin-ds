@@ -117,14 +117,21 @@ export default class BinarySearchTree {
         return this.root;
     }
 
-    find(data) {
+    find(data, iterations = null) {
         if (this.root == null) return;
 
         let queue = [this.root];
         while (queue.length) {
             const current_node = queue.shift();
+
+            if (iterations !== null) {
+                iterations++;
+            }
             
-            if (data === current_node.value) return true;
+            if (data === current_node.value)  {
+                if (iterations) return iterations;
+                return true;
+            }
             else if (data < current_node.value) { // if data less than current node
                 if (current_node.leftNode == null) {
                     return false;
@@ -198,7 +205,11 @@ export default class BinarySearchTree {
 
     height() {}
 
-    depth() {}
+    depth(data) {
+        if (this.root == null) return -1;
+
+        return this.find(data, 0); //Set the iterations parameter to zero to track number of iterations for depth
+    }
 
     isBalanced() {}
 
