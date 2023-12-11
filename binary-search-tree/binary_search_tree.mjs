@@ -37,12 +37,13 @@ export default class BinarySearchTree {
         return node;
     }
 
-    breadFirstSearch(node = this.root, arr = []) {
+    breadthFirstSearch(node = this.root, arr = []) {
         if (node == null) return;
 
         let queue = [node];
         while (queue.length) {
             const current_node = queue.shift();
+
             if (current_node.leftNode) 
                 queue.push(current_node.leftNode);
             if (current_node.rightNode) 
@@ -52,6 +53,30 @@ export default class BinarySearchTree {
 
         return arr;
     }
+    
+    breadthSearchH(node = this.root, iterations) {
+        if (node == null) return;
+
+        let queue = [node, null];
+        while (queue.length) {
+            const current_node = queue.shift();
+
+            if (current_node !== null)  {
+                if (current_node.leftNode) 
+                    queue.push(current_node.leftNode);
+                if (current_node.rightNode) 
+                    queue.push(current_node.rightNode);
+            }
+            else {
+                iterations++;
+                if (queue.length > 0) queue.push(null);
+            }
+        }
+
+        return iterations;
+    }
+
+
 
     insert(data) {
         if (this.root == null) return;
@@ -62,7 +87,7 @@ export default class BinarySearchTree {
             
             if (data < current_node.value) { // if data less than current node
                 if (current_node.leftNode == null) {
-                    current_node.leftNode = Node(data);
+                    current_node.leftNode = new Node(data);
                     return true;
                 }
                 else 
@@ -70,7 +95,7 @@ export default class BinarySearchTree {
             }
             else { //if data greater than current node
                 if (current_node.rightNode == null) {
-                    current_node.rightNode = Node(data);
+                    current_node.rightNode = new Node(data);
                     return true;
                 }
                 else 
@@ -144,8 +169,8 @@ export default class BinarySearchTree {
     }
 
     levelOrder(callbackFn) {
-        let arr = this.breadFirstSearch();
-        callbackFn ? callbackFn(arr) : null;
+        let arr = this.breadthFirstSearch();
+        return callbackFn ? callbackFn(arr) : arr;
     }
 
     inOrder(node = this.root, arr = [], first = null) {
@@ -162,7 +187,6 @@ export default class BinarySearchTree {
             
         }
         else if (this.root.value === node.value) {
-            console.log(arr);
             return arr;
         }
     }
@@ -176,7 +200,6 @@ export default class BinarySearchTree {
         this.preOrder(node.rightNode, arr);
 
         if (this.root.value === node.value) {
-            console.log(arr);
             return arr;
         }
     }
@@ -190,7 +213,6 @@ export default class BinarySearchTree {
         arr.push(node.value);
 
         if (this.root.value === node.value) {
-            console.log(arr);
             return arr;
         }
     }
@@ -199,27 +221,7 @@ export default class BinarySearchTree {
         if (!(node instanceof Node))
             node = this.find(node);
 
-        if (this.root == null || node === false) return 0;
-
-
-        let queue = [node];
-        while (queue.length) {
-            const current_node = queue.shift();
-
-            if (current_node.leftNode != null) { 
-                queue.push(current_node.leftNode);
-            }
-            else if  (current_node.rightNode != null) { 
-                queue.push(current_node.rightNode);
-            }
-            else {
-                return iterations;
-            }
-
-            iterations++;
-
-        }
-        return -1;
+       return this.breadthSearchH(node, iterations);
     }
 
     depth(data) {
@@ -231,11 +233,26 @@ export default class BinarySearchTree {
     isBalanced() {
         if (this.root == null) return false;
 
-        return Math.abs(this.height(this.root.leftNode) - this.height(this.root.rightNode)) <= 1;
+        console.log(Math.abs(this.height(this.root.leftNode, 0)));
+        console.log(Math.abs(this.height(this.root.rightNode, 0)));
+        return Math.abs(this.height(this.root.leftNode, 0) - this.height(this.root.rightNode, 0)) <= 1;
     }
 
     rebalance() {
         this.buildTree(this.inOrder());
         return this.root;
     }
+
+    prettyPrint(node = this.root, prefix = "", isLeft = true) {
+        if (node === null) {
+          return;
+        }
+        if (node.rightNode !== null) {
+          this.prettyPrint(node.rightNode, `${prefix}${isLeft ? "│   " : "    "}`, false);
+        }
+        console.log(`${prefix}${isLeft ? "└── " : "┌── "}${node.value}`);
+        if (node.leftNode !== null) {
+          this.prettyPrint(node.leftNode, `${prefix}${isLeft ? "    " : "│   "}`, true);
+        }
+      };
 }

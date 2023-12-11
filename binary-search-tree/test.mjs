@@ -1,37 +1,70 @@
-import './binary_search_tree.mjs';
 import BinarySearchTree from './binary_search_tree.mjs';
 
-const data = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
+const randomArray = (size) => {
+  return Array.from({ length: size }, () => Math.floor(Math.random() * 100));
+}
 
 const tree = new BinarySearchTree();
-let node = tree.buildTree(data);
+tree.buildTree(randomArray(20));
 
-function prettyPrint(node, prefix = "", isLeft = true) {
-    if (node === null) {
-      return;
-    }
-    if (node.rightNode !== null) {
-      prettyPrint(node.rightNode, `${prefix}${isLeft ? "│   " : "    "}`, false);
-    }
-    console.log(`${prefix}${isLeft ? "└── " : "┌── "}${node.value}`);
-    if (node.leftNode !== null) {
-      prettyPrint(node.leftNode, `${prefix}${isLeft ? "    " : "│   "}`, true);
-    }
-  };
-
-prettyPrint(node);
-
-// console.log("In Order Traversal:")
-// tree.inOrder();
-
-// console.log("Pre Order Traversal:")
-// tree.preOrder();
-
-// console.log("Post Order Traversal:")
-// tree.postOrder();
-
-// console.log("Deleting 1");
-// prettyPrint(tree.delete(1));
-
-console.log("Is balanced?")
+console.log("Is tree balanced?")
 console.log(tree.isBalanced());
+console.log("\n")
+
+console.log("Level order")
+console.log(tree.levelOrder());
+console.log("\n")
+
+console.log("InOrder")
+console.log(tree.inOrder());
+console.log("\n")
+
+console.log("preOrder")
+console.log(tree.preOrder());
+console.log("\n")
+
+console.log("Post Order")
+console.log(tree.postOrder());
+console.log("\n")
+
+tree.insert(150);
+tree.insert(200);
+tree.insert(300);
+tree.insert(400);
+tree.insert(500);
+tree.insert(600);
+tree.insert(700);
+tree.insert(800);
+tree.insert(900);
+
+tree.prettyPrint();
+
+console.log("Is tree balanced?")
+console.log(tree.isBalanced());
+console.log("\n")
+
+console.log("Rebalacning tree...")
+console.log(tree.rebalance());
+console.log("\n")
+
+console.log("Is tree balanced?")
+console.log(tree.isBalanced());
+console.log("\n")
+
+console.log("Level order")
+console.log(tree.levelOrder());
+console.log("\n")
+
+console.log("InOrder")
+console.log(tree.inOrder());
+console.log("\n")
+
+console.log("preOrder")
+console.log(tree.preOrder());
+console.log("\n")
+
+console.log("Post Order")
+console.log(tree.postOrder());
+console.log("\n")
+
+tree.prettyPrint();
