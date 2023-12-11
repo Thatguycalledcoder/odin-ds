@@ -33,5 +33,5 @@ prettyPrint(node);
 // console.log("Deleting 1");
 // prettyPrint(tree.delete(1));
 
-console.log("Depth of 1")
-console.log(tree.depth(1));
+console.log("Is balanced?")
+console.log(tree.isBalanced());

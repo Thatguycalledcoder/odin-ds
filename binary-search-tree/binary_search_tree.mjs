@@ -23,15 +23,7 @@ export default class BinarySearchTree {
 
 
     data_preprocess(data) {
-        let unique_data = [];
-        data.forEach((element) => {
-            if (!(unique_data.includes(element))) {
-                    unique_data.push(element);
-                }
-            }
-        )
-        unique_data.sort((a, b) => a - b);
-        return unique_data;
+        return [...new Set(data.sort((a, b) => a - b))];
     }
 
     buildSubtree(data, start, end) {
@@ -117,10 +109,10 @@ export default class BinarySearchTree {
         return this.root;
     }
 
-    find(data, iterations = null) {
-        if (this.root == null) return;
+    find(data, iterations = null, node = this.root) {
+        if (node == null) return;
 
-        let queue = [this.root];
+        let queue = [node];
         while (queue.length) {
             const current_node = queue.shift();
 
@@ -130,7 +122,7 @@ export default class BinarySearchTree {
             
             if (data === current_node.value)  {
                 if (iterations) return iterations;
-                return true;
+                return current_node;
             }
             else if (data < current_node.value) { // if data less than current node
                 if (current_node.leftNode == null) {
@@ -203,7 +195,32 @@ export default class BinarySearchTree {
         }
     }
 
-    height() {}
+    height(node, iterations = 0) {
+        if (!(node instanceof Node))
+            node = this.find(node);
+
+        if (this.root == null || node === false) return 0;
+
+
+        let queue = [node];
+        while (queue.length) {
+            const current_node = queue.shift();
+
+            if (current_node.leftNode != null) { 
+                queue.push(current_node.leftNode);
+            }
+            else if  (current_node.rightNode != null) { 
+                queue.push(current_node.rightNode);
+            }
+            else {
+                return iterations;
+            }
+
+            iterations++;
+
+        }
+        return -1;
+    }
 
     depth(data) {
         if (this.root == null) return -1;
@@ -211,7 +228,14 @@ export default class BinarySearchTree {
         return this.find(data, 0); //Set the iterations parameter to zero to track number of iterations for depth
     }
 
-    isBalanced() {}
+    isBalanced() {
+        if (this.root == null) return false;
 
-    rebalance() {}
+        return Math.abs(this.height(this.root.leftNode) - this.height(this.root.rightNode)) <= 1;
+    }
+
+    rebalance() {
+        this.buildTree(this.inOrder());
+        return this.root;
+    }
 }
